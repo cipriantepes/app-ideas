@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Binary to Decimal</title>
+</head>
+<body>
+    <h1>Binary to Decimal</h1>
+    <form action="" autocomplete="off">
+        <input name="bin-input" type="text" id="bin-input" autocomplete="new-password">
+        <button type="button" id="bin-calc">Calculate</button>
+    </form>
+    <div id="bin-result"></div>
+
+    <script>
+        // User can enter max 8 digits
+        // Limit to 0 and 1
+        // Notify if other than 0 or 1 entered
+        // Display decimal number below form
+
+        // event listener for bin-calc
+
+        const btnCalc = document.querySelector('#bin-calc');
+        const input = document.querySelector('#bin-input');
+        const result = document.querySelector('#bin-result');
+        const maxChar = 8;
+
+        function convertValue() {
+            result.textContent = parseInt(input.value, 2);
+        }
+
+        function notify() {
+            result.textContent = 'Only binary digits allowed.';
+        }
+
+        // Function to limit max char
+        function limitMaxChar(ev, el = input, maxLength = maxChar) {
+            // check if el is input            console.log(ev);
+            if (el.nodeName !== 'INPUT') return;
+            
+            let size = el.value.length;
+            let keyCode = ev.keyCode;
+            
+            if (keyCode === 0) return;
+
+            if ( keyCode < 48 || keyCode > 49 ) {
+                ev.preventDefault();
+                notify();
+            }
+
+            if ( size >= maxLength ) {
+                ev.preventDefault();
+            }
+
+        }
+        
+        input.addEventListener('keydown', (ev) => limitMaxChar(ev), false);
+        // Function to calc
+
+        btnCalc.addEventListener('click', convertValue);
+        input.addEventListener('keydown', (e) => {e.keyCode == 13 ? convertValue() : ''});
+
+
+    </script>
+</body>
+</html>
+

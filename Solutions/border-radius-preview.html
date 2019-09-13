@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Border Radius Previewer</title>
+    <style>
+        #el-radius {
+            background: blue;
+            width: 25vw;
+            height: 25vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Border Radius Previewer</h1>
+    <ul>
+        <li>User can see a box which has a border-radius property applied to it</li>
+        <li>User can change the 4 border-radius values that are applied to the box (top-left, top-right, bottom-left, bottom-right)</li>
+        <li>User can copy the resulting CSS to the clipboard</li>
+    </ul>
+
+    <div class="wrapper">
+        <div id="el-radius"></div>
+        <div id="controls">
+            <!-- <input type="range" id="radius-top" min="0" mas="100" value="0" onchange="updateRadius(this.value)" oninput="updateRadius(this.value)" data-radius="top"> -->
+            <input type="range" id="radius-top" min="0" mas="100" value="0" data-radius="top">
+            <label for="radius-top">Radius Top</label>
+
+            <input type="range" id="radius-right" min="0" mas="100" value="0" data-radius="right">
+            <label for="radius-right">Radius Right</label>
+
+            <input type="range" id="radius-bottom" min="0" mas="100" value="0" data-radius="bottom">
+            <label for="radius-bottom">Radius Bottom</label>
+
+            <input type="range" id="radius-left" min="0" mas="100" value="0" data-radius="left">
+            <label for="radius-left">Radius Left</label>
+        </div>
+    </div>
+
+    - div
+    - 4 range slider
+    <script>
+        const elem = document.querySelector('#el-radius');
+        const radiusTop = document.querySelector('#radius-top');
+        const radiusRight = document.querySelector('#radius-right');
+        const radiusBottom = document.querySelector('#radius-bottom');
+        const radiusLeft = document.querySelector('#radius-left');
+
+        let drawInit = false;
+
+        // need a function that would change 2 values
+        // 1 param
+        function updateRadius(ev, el) {
+            // you could be elegant and go with dataset :)
+            let borderPos = ev.target.id;
+            borderPos = borderPos.slice(borderPos.indexOf('-', -1) +1); // Add 1 because it starts from -
+
+            // let borderPos = ev.target.dataset.radius; // top, left, right, bottom
+            // borderPos = borderPos.charAt(0).toUpperCase + borderPos.slice(1);
+            // when you drag top, both top left and top right move
+            // ev.target.style['border'+borderPos+'LeftRadius'] = ev.target.value+'%';
+            // ev.target.style['border'+borderPos+'RightRadius'] = ev.target.value+'%';
+            
+            // borderTopLeftRadius
+            // borderTopRightRadius
+            // borderBottomLeftRadius
+            // borderBottomRightRadius
+
+
+            // TODO: Break the pattern below
+            switch(borderPos) {
+                case 'top':
+                    el.style.borderTopLeftRadius = ev.target.value+'%';
+                    el.style.borderTopRightRadius = ev.target.value+'%';
+                    break;
+                case 'right':
+                    el.style.borderTopRightRadius = ev.target.value+'%';
+                    el.style.borderBottomRightRadius = ev.target.value+'%';
+                    break;
+                case 'bottom':
+                    el.style.borderBottomLeftRadius = ev.target.value+'%';
+                    el.style.borderBottomRightRadius = ev.target.value+'%';
+                    break;
+                case 'left':
+                    el.style.borderTopLeftRadius = ev.target.value+'%';
+                    el.style.borderBottomLeftRadius = ev.target.value+'%';
+                    break;
+            }
+
+            // when you drag top slider, modify borderTopLeftRadius & borderTopRightRadius
+            // when you drag right slider, modify borderTopRightRadius & borderBottomRightRadius
+            // when you drag bottom slider, modify borderBottomLeftRadius & borderBottomRightRadius
+            // when you drag left slider, modify borderBottomLeftRadius & borderTopLeftRadius
+        }
+
+        // radiusTop.addEventListener('mousedown', (e) => console.log(e));
+
+        radiusTop.addEventListener('input', ev => updateRadius(ev, elem));
+        // radiusTop.addEventListener('change', updateRadius);
+        radiusRight.addEventListener('input', ev => updateRadius(ev, elem));
+        // radiusRight.addEventListener('change', updateRadius);
+        radiusBottom.addEventListener('input', ev => updateRadius(ev, elem));
+        // radiusBottom.addEventListener('change', updateRadius);
+        radiusLeft.addEventListener('input', ev => updateRadius(ev, elem));
+        // radiusLeft.addEventListener('change', updateRadius);
+
+        // radiusBottom.addEventListener('mousedown', (e) => {console.log(e.target.value); drawInit = true;} );
+        // radiusBottom.addEventListener('mousemove', (e) => {console.log(e.target.value); drawInit = false;});
+
+        // need 4 event listener for each range
+
+        // 
+    </script>
+</body>
+</html>
